@@ -12,11 +12,10 @@ export function fetchBreeds(){
         throw new Error(resp.statusText);
     }
     return resp.json();});
-    
     };
 
 export function fetchCatByBreed(breedId) {
-    const url = `https://api.thecatapi.com/v1/images/search?api_key=${API_KEY},breed_ids=${breedId}`;
+    const url = `https://api.thecatapi.com/v1/images/search?api_key=${API_KEY}&breed_ids=${breedId}`;
     return fetch(url)
     .then((resp)=>{
         if(!resp.ok){
