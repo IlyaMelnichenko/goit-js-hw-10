@@ -20,13 +20,15 @@ fetchBreeds().then((data)=>
 breedSelect.insertAdjacentHTML('beforeend',addOption(data))).catch(err=>console.log(err));
 
 function showCatInfo(catData) {
-    return catData.map(({url,}))
+    return catData.map(({url})=>{
+        
+    })
 
 }
 breedSelect.addEventListener('change',(evt)=>{
 console.log(evt.currentTarget.value)
 const selectedBreedId = evt.currentTarget.value;
-fetchCatByBreed(selectedBreedId).then((data)=>)
+// fetchCatByBreed(selectedBreedId).then((data)=>)
 })
 
 
