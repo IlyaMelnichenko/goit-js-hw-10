@@ -3,24 +3,29 @@ import { fetchBreeds, fetchCatByBreed } from "./cat-api.js";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SlimSelect from 'slim-select';
 import 'slim-select/dist/slimselect.css';
+
 const breedSelect = document.getElementById("selectElement");
 const loader = document.querySelector(".loader");
 const error = document.querySelector(".error");
 const catInfo = document.querySelector(".cat-info");
 axios.defaults.headers.common["x-api-key"] = "live_c75ALP6I0630f3xjF7n3livuoVXZK4toulfDzblz6Agac6uFxV1uSQXZf4nzkLRi";
 
-hideLoader();
+breedSelect.classList.add('is-hidden');
+
 error.classList.add('is-hidden');
 catInfo.hidden = 'true';
+showLoader();
 
 fetchBreeds().then((data)=>{
+  
     breedSelect.innerHTML = addOption(data);
     new SlimSelect({
         select: breedSelect,
         });
+        hideLoader()     
   })
   .catch(onError);
-
+  // breedSelect.classList.remove('is-hidden'); 
     
 
 breedSelect.addEventListener('change',(evt)=>{
