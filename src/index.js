@@ -1,6 +1,7 @@
 import axios from "axios";
 import { fetchBreeds, fetchCatByBreed } from "./cat-api.js";
-
+import SlimSelect from 'slim-select';
+import 'slim-select/dist/slimselect.css';
 const breedSelect = document.getElementById("selectElement");
 const loader = document.querySelector(".loader");
 const error = document.querySelector(".error");
@@ -11,12 +12,16 @@ hideLoader();
 error.hidden = 'true';
 catInfo.hidden = 'true';
 
-fetchBreeds().then((data)=>
-breedSelect.insertAdjacentHTML('beforeend',addOption(data))).catch(err=>{
-    console.log(err)
-    error.hidden='';
-});
-
+fetchBreeds().then((data)=>{
+    breedSelect.innerHTML = addOption(data);
+    new SlimSelect({
+        select: breedSelect,
+        });
+  })
+  .catch(err => {
+    console.log(err);
+    error.hidden = false;
+  });
 
     
 
@@ -42,11 +47,11 @@ function showDiv(){
 }
 
 function showLoader() {
-    loader.hidden ='';
+    loader.classList.remove('is-hidden');
   }
 
 function hideLoader() {
-    loader.hidden ='true';
+    loader.classList.add('is-hidden');
   }
 
 function addOption(arr){
@@ -69,7 +74,7 @@ function showCatInfo(catData) {
       
     };
 
-
+    
 
 
     
