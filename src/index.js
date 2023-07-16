@@ -1,5 +1,6 @@
 import axios from "axios";
 import { fetchBreeds, fetchCatByBreed } from "./cat-api.js";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SlimSelect from 'slim-select';
 import 'slim-select/dist/slimselect.css';
 const breedSelect = document.getElementById("selectElement");
@@ -9,7 +10,7 @@ const catInfo = document.querySelector(".cat-info");
 axios.defaults.headers.common["x-api-key"] = "live_c75ALP6I0630f3xjF7n3livuoVXZK4toulfDzblz6Agac6uFxV1uSQXZf4nzkLRi";
 
 hideLoader();
-error.hidden = 'true';
+error.classList.add('is-hidden');
 catInfo.hidden = 'true';
 
 fetchBreeds().then((data)=>{
@@ -18,30 +19,30 @@ fetchBreeds().then((data)=>{
         select: breedSelect,
         });
   })
-  .catch(err => {
-    console.log(err);
-    error.hidden = false;
-  });
+  .catch(onError);
 
     
 
 breedSelect.addEventListener('change',(evt)=>{
-    breedSelect.hidden = 'true';
+    breedSelect.classList.add('is-hidden');
     showLoader();
-    showDiv();
+    hideDiv()
 const selectedBreedId = evt.currentTarget.value;
 
 fetchCatByBreed(selectedBreedId).then((data)=>showCatInfo(data)).then((data)=>{
     hideLoader()
-    breedSelect.hidden = '';
+    breedSelect.classList.remove('is-hidden');
+    showDiv();
 }
-).catch(err=>error.hidden='')
+).catch(onError)
 
 
 });
 
 
-
+function hideDiv(){
+  catInfo.hidden ='true';
+}
 function showDiv(){
     catInfo.hidden ='';
 }
@@ -73,6 +74,15 @@ function showCatInfo(catData) {
         </div>`;
       
     };
+
+    function onError(_error){
+      breedSelect.classList.add('is-hidden');
+      error.classList.remove('is-hidden');
+      Notify.warning(
+        'Oops! Something went wrong! Try reloading the page or select another cat breed!'
+      );
+    
+    }
 
     
 
